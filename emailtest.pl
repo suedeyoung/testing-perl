@@ -15,4 +15,4 @@ print MAIL "Subject: $subject\n\n";
 print MAIL $message;
 
 $result = close(MAIL);
-if($result) { print "Email sent!\n";} else { print "The email didn't not send\n";}
+if($result) { print "Email sent!";} else { print "The email didn't not send";}
