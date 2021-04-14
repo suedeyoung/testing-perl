@@ -1,23 +1,18 @@
 #!/usr/bin/perl
-use strict;
-use warnings;
 
-#creating the message first here
-use Email::MIME;
-my $message = Email::MIME->create(
-        header_str => [
-                From => 'test@cpaneltestdomain.com',
-                To => 'cpanelnoreply@gmail.com',
-                Subject => 'Test From Suede',
-],
-        attributes => {
-                encoding => 'quoted-printable',
-                charset => 'UTF-8',
-},
-        body_str => "Hello,\n\nThis is a test email from Suede\nYou can safely ignore it.\n",
-);
+$to = 'cpanelnoreply@gmail.com';
+$from = 'test@cpaneltestdomain.com';
+$subject = 'Test From Suede';
+$message = 'Hello, This is a test email from Suede. You can safely ignore this message.';
 
-#fire the message away!
+open(MAIL, "|/usr/sbin/sendmail -t");
 
-use Email::Sender::Simple qw(sendmail);
-sendmail($message);
+# Email Header
+print MAIL "To: $to\n";
+print MAIL "From: $from\n";
+print MAIL "Subject: $subject\n\n";
+#Email Body
+print MAIL $message;
+
+$result = close(MAIL);
+if($result) { print "Email sent!\n";} else { print "The email didn't not send\n";}
